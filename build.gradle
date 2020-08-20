@@ -1,0 +1,33 @@
+plugins {
+    id 'java'
+}
+
+group 'at.jku.ssw'
+version '1.0'
+
+sourceCompatibility = 1.8
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    testCompile group: 'junit', name: 'junit', version: '4.12'
+    // https://mvnrepository.com/artifact/commons-httpclient/commons-httpclient
+    compile group: 'commons-httpclient', name: 'commons-httpclient', version: '3.0.1'
+}
+
+jar {
+    manifest {
+        attributes "Main-Class": "at.jku.ssw.FullMemoryLeakExample"
+    }
+
+    from {
+        configurations.compile.collect { it.isDirectory() ? it : zipTree(it) }
+    }
+}
+
+tasks.named('wrapper') {
+    gradleVersion = '6.6'
+    distributionType = Wrapper.DistributionType.ALL
+}
